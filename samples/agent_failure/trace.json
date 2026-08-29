@@ -1,0 +1,62 @@
+{
+  "id": "agent-root",
+  "name": "support_agent",
+  "run_type": "agent",
+  "start_time": "2026-08-27T11:00:00",
+  "end_time": "2026-08-27T11:00:12",
+  "inputs": {"user": "Create a ticket for order 9981"},
+  "error": "Agent stopped due to tool validation failure",
+  "child_runs": [
+    {
+      "id": "llm-plan",
+      "name": "planner_llm",
+      "run_type": "llm",
+      "start_time": "2026-08-27T11:00:00",
+      "end_time": "2026-08-27T11:00:04",
+      "inputs": {"prompt": "Decide which tool to call"},
+      "outputs": {
+        "tool_call": {
+          "name": "create_ticket",
+          "arguments": "{\"order_id\": 9981, \"priority\": \"URGENT\"}"
+        }
+      }
+    },
+    {
+      "id": "tool-1",
+      "name": "create_ticket",
+      "run_type": "tool",
+      "start_time": "2026-08-27T11:00:04",
+      "end_time": "2026-08-27T11:00:05",
+      "status": "error",
+      "error": "ValidationError: priority must be one of ['low','medium','high'] — got 'URGENT'. Invalid tool schema arguments.",
+      "inputs": {"order_id": 9981, "priority": "URGENT"},
+      "outputs": null
+    },
+    {
+      "id": "llm-retry",
+      "name": "planner_llm_retry",
+      "run_type": "llm",
+      "start_time": "2026-08-27T11:00:05",
+      "end_time": "2026-08-27T11:00:09",
+      "attrs_note": "retry",
+      "inputs": {"prompt": "Fix tool args"},
+      "outputs": {
+        "tool_call": {
+          "name": "create_ticket",
+          "arguments": "{\"order_id\": 9981, \"priority\": \"HIGH\"}"
+        }
+      }
+    },
+    {
+      "id": "tool-2",
+      "name": "create_ticket",
+      "run_type": "tool",
+      "start_time": "2026-08-27T11:00:09",
+      "end_time": "2026-08-27T11:00:10",
+      "status": "error",
+      "error": "ValidationError: priority must be one of ['low','medium','high'] — got 'HIGH'. Schema validation error on tool_call.",
+      "inputs": {"order_id": 9981, "priority": "HIGH"},
+      "outputs": null
+    }
+  ]
+}

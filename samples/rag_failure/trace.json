@@ -1,0 +1,43 @@
+{
+  "id": "rag-root",
+  "name": "rag_qa_chain",
+  "run_type": "chain",
+  "start_time": "2026-08-27T10:00:00",
+  "end_time": "2026-08-27T10:00:08",
+  "inputs": {"question": "What is the refund window for enterprise plans?"},
+  "outputs": {"answer": "I don't have enough information in the knowledge base."},
+  "child_runs": [
+    {
+      "id": "embed-1",
+      "name": "embed_query",
+      "run_type": "embedding",
+      "start_time": "2026-08-27T10:00:00",
+      "end_time": "2026-08-27T10:00:01",
+      "inputs": {"text": "What is the refund window for enterprise plans?"},
+      "outputs": {"dims": 1536}
+    },
+    {
+      "id": "retriever-1",
+      "name": "vector_retriever",
+      "run_type": "retriever",
+      "start_time": "2026-08-27T10:00:01",
+      "end_time": "2026-08-27T10:00:03",
+      "status": "error",
+      "error": "No documents matched the query (hit_count=0)",
+      "inputs": {"query": "What is the refund window for enterprise plans?", "k": 4},
+      "outputs": {"documents": [], "hit_count": 0, "scores": []},
+      "child_runs": []
+    },
+    {
+      "id": "llm-1",
+      "name": "answer_llm",
+      "run_type": "llm",
+      "start_time": "2026-08-27T10:00:03",
+      "end_time": "2026-08-27T10:00:08",
+      "inputs": {
+        "prompt": "Context:\n(none)\n\nQuestion: What is the refund window for enterprise plans?"
+      },
+      "outputs": {"text": "I don't have enough information in the knowledge base."}
+    }
+  ]
+}

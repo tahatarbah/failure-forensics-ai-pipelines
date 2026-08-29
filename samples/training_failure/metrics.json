@@ -1,0 +1,22 @@
+{
+  "config": {
+    "model": "resnet18",
+    "lr": 0.1,
+    "batch_size": 128,
+    "dataset": "custom_widgets_v3"
+  },
+  "baseline": {
+    "val_accuracy": 0.91,
+    "loss": 0.28
+  },
+  "epochs": [
+    {"epoch": 0, "name": "epoch-0", "loss": 0.82, "val_accuracy": 0.71},
+    {"epoch": 1, "name": "epoch-1", "loss": 0.55, "val_accuracy": 0.8},
+    {"epoch": 2, "name": "epoch-2", "loss": 0.41, "val_accuracy": 0.86},
+    {"epoch": 3, "name": "epoch-3", "loss": 1.74, "val_accuracy": 0.52, "error": "loss spike detected"},
+    {"epoch": 4, "name": "epoch-4", "loss": "NaN", "val_accuracy": 0.0, "status": "error", "error": "Loss became NaN; aborting"}
+  ],
+  "exit_code": 1,
+  "error": "RuntimeError: CUDA out of memory. Tried to allocate 2.40 GiB during checkpoint write to /mnt/artifacts/epoch-4.pt",
+  "logs": "2026-08-27 09:10:00 INFO Starting training\n2026-08-27 09:20:00 INFO epoch=3 loss=1.74\n2026-08-27 09:25:00 ERROR Loss became NaN\n2026-08-27 09:25:01 ERROR RuntimeError: CUDA out of memory. Tried to allocate 2.40 GiB\n2026-08-27 09:25:01 ERROR Failed to save checkpoint /mnt/artifacts/epoch-4.pt — no space / OOM during artifact write\nTraceback (most recent call last):\n  File \"train.py\", line 210, in fit\n    torch.save(state, path)\nRuntimeError: CUDA out of memory\n"
+}
